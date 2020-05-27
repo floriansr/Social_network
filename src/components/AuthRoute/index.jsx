@@ -9,7 +9,7 @@ import { setConnexion, removeConnexion } from "../../redux";
 const AuthRoute = ({ component: Component, ...rest } : AuthRoute) => {
 
 	const dispatch = useDispatch();
-	const logStatus = useSelector(state => state.log);
+	const logStatus = useSelector(state => state.log.log);
 
 	const checkLog = () => (
 

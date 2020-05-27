@@ -10,7 +10,7 @@ import Authroute from "components/AuthRoute"
 import Home from "pages/Home";
 import Register from "pages/Register";
 import LogIn from "pages/Login";
-
+import Profile from "pages/Profile";
 
 
 const App = () => {
@@ -24,6 +24,7 @@ const App = () => {
 							<Navbar />
 
 							<Switch>
+								<Route path="/profile" component={Profile} />
 								<Route path="/register" component={Register} />
 								<Route path="/login" component={LogIn} />
 

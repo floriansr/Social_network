@@ -1,19 +1,19 @@
 import { PROFILE } from "redux/user/userType";
 
 const initialState = {
-  user: false,
+  data: [],
 };
 
-const logReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case PROFILE:
       return {
         ...state,
-        log: true,
+        data: action.data,
       };
     default:
       return state;
   }
 };
 
-export default logReducer;
+export default userReducer;

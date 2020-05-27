@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
  // import { useHistory } from "react-router-dom";
-// import { useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 import Cookies from 'js-cookie'
-
-   // import { setConnexion } from "../../redux";
+import { setProfile } from "../../redux";
   // const history = useHistory();
- //  const dispatch = useDispatch();
 
 const Profile = () => {
-
-
-    const token = Cookies.get('token')
+  const dispatch = useDispatch();
+  const token = Cookies.get('token')
+  
+  useEffect(() => {
 
     fetch('https://api-minireseausocial.mathis-dyk.fr/users/me', {
       method: 'get',
@@ -23,12 +22,19 @@ const Profile = () => {
       .then(response => response.json())
       .then(response => {
         console.log(response)
+        dispatch(setProfile(response))
       })
       .catch(error => console.log(error));
 
+}, []);
 
+  const test = useSelector(state => state.user.data[0]);
+
+
+  
 	return (
 		<>
+      <p>{test.email}</p>
 		</>
 	);
 };

@@ -10,7 +10,7 @@ import { removeConnexion } from "../../redux";
 
 const Navbar = () => {
 	const history = useHistory();
-	const logStatus = useSelector(state => state.log);
+	const logStatus = useSelector(state => state.log.log);
 	const dispatch = useDispatch();
 
 
@@ -24,7 +24,17 @@ const Navbar = () => {
 		<>
 			<div>
 				<Link to="/">Home</Link>
-				{ logStatus ? <button type="button" onClick={deleteCookies}>Deconnexion</button> : <div><Link to="/register">Register</Link><Link to="/login">Login</Link></div> }
+				{ logStatus ? 
+					<div>
+							<button type="button" onClick={deleteCookies}>Deconnexion</button>
+							<Link to="/profile">Profile</Link>
+					</div>
+					 : 
+					 <div>
+					 	<Link to="/register">Register</Link>
+					 	<Link to="/login">Login</Link>
+					 </div>
+				}
 			</div>
 		</>
 	);
