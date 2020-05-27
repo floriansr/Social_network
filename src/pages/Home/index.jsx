@@ -1,21 +1,12 @@
-import React, { useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-
-import LanguagesContext from "context/LanguagesContext";
-import { FormattedMessage } from "react-intl";
+import React from "react";
 
 const Home = () => {
-	const history = useHistory();
-	const { language } = useContext(LanguagesContext);
 
-	useEffect(() => {
-		history.push(`/${language}`);
-	}, [language]);
 
 	return (
 		<>
 			<p>
-				<FormattedMessage id="Titre" />
+				page home
 			</p>
 		</>
 	);

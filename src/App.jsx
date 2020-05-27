@@ -1,54 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { IntlProvider } from "react-intl";
-import LanguagesContext from "context/LanguagesContext";
-import { flattenMessages } from "tools/FlattenMessages";
-import fr from "assets/translation/fr";
-import en from "assets/translation/en";
+import { Provider } from "react-redux";
+import store from "redux/store";
 
 import Navbar from "components/Navbar";
+import Authroute from "components/AuthRoute"
 import Home from "pages/Home";
-import About from "pages/About";
+import Register from "pages/Register";
 
-const messages = {
-	fr,
-	en,
-};
 
 const App = () => {
-	const [language, setLanguage] = useState("fr");
-
-	useEffect(() => {
-		setLanguage(localStorage.getItem("Language fav"));
-	}, []);
-
-	useEffect(() => {
-		localStorage.setItem("Language fav", language);
-	}, [language]);
 
 	return (
 		<>
-			<IntlProvider
-				locale={language}
-				messages={flattenMessages(messages[language])}
-			>
-				<Router>
+		<Router>
 					<div>
-						<LanguagesContext.Provider
-							value={{ language, setLanguage }}
-						>
+						<Provider store={store}>
+
 							<Navbar />
 
 							<Switch>
-								<Route path="/about" component={About} />
-								<Route path="/" component={Home} />
+								<Route path="/register" component={Register} />
+								<Authroute path="/" component={Home} />
 							</Switch>
-						</LanguagesContext.Provider>
+
+						</Provider>
 					</div>
 				</Router>
-			</IntlProvider>
 		</>
 	);
 };
