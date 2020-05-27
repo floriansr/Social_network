@@ -30,9 +30,9 @@ const Profile = () => {
 
 }, []);
 
-  const data = useSelector(state => state.user.data[0]);
+  const myProfile = useSelector(state => state.user.data);
 
-  if (!data.email) {
+  if (myProfile.length === 0) {
     return (
       <Loader />
     )
@@ -42,7 +42,7 @@ const Profile = () => {
   
 	return (
 		<>
-      <p>{data.email}</p>
+      <p>{myProfile[0].email}</p>
 		</>
 	);
 };
