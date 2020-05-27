@@ -1,4 +1,4 @@
-import { CONNEXION } from "redux/log/logType";
+import { CONNEXION, DECONNEXION } from "redux/log/logType";
 
 const initialState = {
   log: false,
@@ -10,6 +10,11 @@ const logReducer = (state = initialState, action) => {
       return {
         ...state,
         log: true,
+      };
+    case DECONNEXION:
+      return {
+        ...state,
+        log: false,
       };
     default:
       return state;

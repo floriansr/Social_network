@@ -1,1 +1,1 @@
-export { setConnexion } from "redux/log/logActions";
+export { setConnexion, removeConnexion } from "redux/log/logActions";

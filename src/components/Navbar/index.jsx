@@ -1,11 +1,14 @@
 import React from "react";
 
 import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux"
+
 import Cookies from 'js-cookie'
 
 
 const Navbar = () => {
 	const history = useHistory();
+	const logStatus = useSelector(state => state.log);
 
 	const deleteCookies = () => {
 		Cookies.remove('token')
@@ -16,9 +19,8 @@ const Navbar = () => {
 		<>
 			<div>
 				<Link to="/">Home</Link>
-				<Link to="/register">Register</Link>
+				{ logStatus ? <button type="button" onClick={deleteCookies}>Deconnexion</button> : <Link to="/register">Register</Link> }
 			</div>
-			<button type="button" onClick={deleteCookies}>Deconnexion</button>
 		</>
 	);
 };
