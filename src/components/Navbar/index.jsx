@@ -19,7 +19,7 @@ const Navbar = () => {
 		<>
 			<div>
 				<Link to="/">Home</Link>
-				{ logStatus ? <button type="button" onClick={deleteCookies}>Deconnexion</button> : <Link to="/register">Register</Link> }
+				{ logStatus ? <button type="button" onClick={deleteCookies}>Deconnexion</button> : <div><Link to="/register">Register</Link><Link to="/login">Login</Link></div> }
 			</div>
 		</>
 	);

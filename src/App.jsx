@@ -9,6 +9,8 @@ import Navbar from "components/Navbar";
 import Authroute from "components/AuthRoute"
 import Home from "pages/Home";
 import Register from "pages/Register";
+import LogIn from "pages/Login";
+
 
 
 const App = () => {
@@ -23,6 +25,8 @@ const App = () => {
 
 							<Switch>
 								<Route path="/register" component={Register} />
+								<Route path="/login" component={LogIn} />
+
 								<Authroute path="/" component={Home} />
 							</Switch>
 
