@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import Loader from "react-loader";
+
  // import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 
@@ -9,7 +11,7 @@ import { setProfile } from "../../redux";
 const Profile = () => {
   const dispatch = useDispatch();
   const token = Cookies.get('token')
-  
+
   useEffect(() => {
 
     fetch('https://api-minireseausocial.mathis-dyk.fr/users/me', {
@@ -28,13 +30,19 @@ const Profile = () => {
 
 }, []);
 
-  const test = useSelector(state => state.user.data[0]);
+  const data = useSelector(state => state.user.data[0]);
+
+  if (!data.email) {
+    return (
+      <Loader />
+    )
+  }
 
 
   
 	return (
 		<>
-      <p>{test.email}</p>
+      <p>{data.email}</p>
 		</>
 	);
 };
