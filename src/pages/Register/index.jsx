@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux"
 
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import Cookies from 'js-cookie'
 
 import { setConnexion } from "../../redux";
@@ -75,6 +75,7 @@ const Register = () => {
 	              console.log(response)
 	              const token = response.jwt
 	              Cookies.set('token', token, { expires: 7 })
+                message.success("Profile well registered", 3);
 	              getProfile()
 	            })
 	      .catch(error => console.log(error));
