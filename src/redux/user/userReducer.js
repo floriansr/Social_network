@@ -1,7 +1,7 @@
-import { PROFILE } from "redux/user/userType";
+import { PROFILE, MODIFICATE_MY_PROFILE } from "redux/user/userType";
 
 const initialState = {
-  data: [],
+  data: {},
 };
 
 const userReducer = (state = initialState, action) => {
@@ -9,7 +9,15 @@ const userReducer = (state = initialState, action) => {
     case PROFILE:
       return {
         ...state,
-        data: action.data,
+        data: action.details,
+      };
+    case MODIFICATE_MY_PROFILE:
+      return {
+        data : {
+        ...state.data,
+        description: action.description,
+        username: action.username,
+        }
       };
     default:
       return state;

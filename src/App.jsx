@@ -24,10 +24,10 @@ const App = () => {
 							<Navbar />
 
 							<Switch>
-								<Route path="/profile" component={Profile} />
 								<Route path="/register" component={Register} />
 								<Route path="/login" component={LogIn} />
 
+								<Authroute path="/profile" component={Profile} />
 								<Authroute path="/" component={Home} />
 							</Switch>
 

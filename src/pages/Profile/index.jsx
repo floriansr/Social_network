@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import Loader from "react-loader";
+import { Descriptions } from 'antd';
 
- // import { useHistory } from "react-router-dom";
+import ModificationMyProfile from "components/ModificationMyProfile"
+
 import { useSelector, useDispatch } from "react-redux"
-
 import Cookies from 'js-cookie'
 import { setProfile } from "../../redux";
-  // const history = useHistory();
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -26,23 +26,37 @@ const Profile = () => {
         console.log(response)
         dispatch(setProfile(response))
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error)); 
 
 }, []);
 
   const myProfile = useSelector(state => state.user.data);
 
-  if (myProfile.length === 0) {
+  console.log(myProfile)
+
+  if (!myProfile) {
     return (
       <Loader />
     )
   }
-
-
   
 	return (
 		<>
-      <p>{myProfile[0].email}</p>
+      <Descriptions
+        title="My Profile"
+        bordered
+        column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+      >
+        <Descriptions.Item label="Username">{myProfile.username}</Descriptions.Item>
+        <Descriptions.Item label="Email">{myProfile.email}</Descriptions.Item>
+        <Descriptions.Item label="ID">{myProfile.id}</Descriptions.Item>
+        <Descriptions.Item label="Amount">{myProfile.created_at}</Descriptions.Item>
+        <Descriptions.Item label="Description">
+          {myProfile.description}
+        </Descriptions.Item>
+      </Descriptions>
+      
+      <ModificationMyProfile/>
 		</>
 	);
 };
