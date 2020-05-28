@@ -9,9 +9,6 @@ export const setProfile = (data) => {
 
 export const modificateProfile = (username, description) => {
 
-	console.log(username)
-	console.log(description)
-
 	return {
 		type: MODIFICATE_MY_PROFILE,
 		username,

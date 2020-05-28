@@ -1,30 +1,56 @@
 import React from 'react';
-import { useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { Form, Input, Button } from 'antd';
+import Cookies from 'js-cookie'
+
 
 import { modificateProfile } from "../../redux";
 
 
 const ModificationMyProfile  = () => {
 	const dispatch = useDispatch();
+  const myId = useSelector(state => state.user.data.id);
+  const token = Cookies.get('token')
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
+
+  const layout = {
+    labelCol: {
+      span: 8,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+  const tailLayout = {
+    wrapperCol: {
+      offset: 8,
+      span: 16,
+    },
+  };
 
 	const changeValue = ({username, description}) => {
-    dispatch(modificateProfile(username, description))
+
+    const data = {
+      username,
+      description,
+    }
+
+    console.log(`https://api-minireseausocial.mathis-dyk.fr/users/${myId}`)
+
+      fetch(`https://api-minireseausocial.mathis-dyk.fr/users/${myId}`, {
+        method: 'put',
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(response => {
+          console.log(response)
+          dispatch(modificateProfile(username, description))
+        })
+        .catch(error => console.log(error)); 
 	}
 
 	const onFinish = values => {

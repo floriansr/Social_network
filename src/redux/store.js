@@ -2,10 +2,13 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import logReducer from "redux/log/logReducer";
 import userReducer from "redux/user/userReducer";
+import postsReducer from "redux/posts/postsReducer";
+
 
 const rootReducer = combineReducers({
   log: logReducer,
-  user: userReducer
+  user: userReducer,
+  posts: postsReducer
 })
 
 const store = createStore(

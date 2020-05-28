@@ -23,16 +23,13 @@ const Profile = () => {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response)
         dispatch(setProfile(response))
       })
       .catch(error => console.log(error)); 
 
-}, []);
+}, [dispatch, token]);
 
   const myProfile = useSelector(state => state.user.data);
-
-  console.log(myProfile)
 
   if (!myProfile) {
     return (
