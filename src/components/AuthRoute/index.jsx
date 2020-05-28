@@ -3,6 +3,8 @@ import { Route } from "react-router-dom";
 // import Loader from "react-loader";
 
 import Cookies from 'js-cookie'
+import shortid from 'shortid'
+import { Card } from 'antd';
 import { useSelector, useDispatch } from "react-redux"
 import { setConnexion, removeConnexion, setPosts, setProfile } from "../../redux";
 
@@ -11,7 +13,7 @@ const AuthRoute = ({ component: Component, ...rest } : AuthRoute) => {
 	const dispatch = useDispatch();
 	const token = Cookies.get('token')
 	const logStatus = useSelector(state => state.log.log);
-	// const checkProfileId = allPosts.find((x) => x.user.username === userSlug)
+	const allPosts = useSelector(state => state.posts.posts);
 
 
 	// GET PROFILE WITH TOKEN
@@ -56,7 +58,20 @@ const AuthRoute = ({ component: Component, ...rest } : AuthRoute) => {
 
 	return (
 		<>
-			<Route {...rest} render={props => ( (checkLog() && logStatus) ? ( <Component {...props} />) : ( <p>Welcome on My Social Network. This website is a training to Redux and React. We use auth and routing to create a small social media website.</p>))} />
+			<Route {...rest} render={props => ( (checkLog() && logStatus) ? ( <Component {...props} />) : 
+				( <div><p>Welcome on My Social Network. This website is a training to Redux and React. We use auth and routing to create a small social media website.</p>
+			
+			{ allPosts.map((x) => (
+			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
+
+			    <Card  bordered={false} style={{ width: 300 }}>
+			       <p>{x.text}</p>
+			    </Card>
+			</div>
+
+		))}	
+			
+			</div>))} />
 		</>
 	);
 }

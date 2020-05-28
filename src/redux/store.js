@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   log: logReducer,
   user: userReducer,
   posts: postsReducer,
-  other_user_data: otherUserReducer
+  other_user_data: otherUserReducer,
 })
 
 const store = createStore(

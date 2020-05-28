@@ -9,9 +9,13 @@ import { useSelector } from "react-redux"
 import Cookies from 'js-cookie'
 import shortid from "shortid";
 
+// import { increment, decrement } from "../../redux";
+
+
 
 const Home = () => {
 	const history = useHistory();
+	// const dispatch = useDispatch();
 	const myId = useSelector(state => state.user.data.id);
 	const allPosts = useSelector(state => state.posts.posts);
 	const token = Cookies.get('token')
@@ -92,6 +96,37 @@ const Home = () => {
 		)
 	}
 
+	const increment = (post) => {
+
+		const data = {
+	      like: post.like + 1
+	    }
+
+	    fetch(`https://api-minireseausocial.mathis-dyk.fr/posts/${post.id}`, {
+	      method: 'put',
+	      headers: {
+	        'Content-Type': 'application/json',
+	        'Authorization': `Bearer ${token}`
+	      },
+	      body: JSON.stringify(data)
+	    })
+	}
+
+	const decrement = (post) => {
+		const data = {
+	      like: post.like - 1
+	    }
+
+	    fetch(`https://api-minireseausocial.mathis-dyk.fr/posts/${post.id}`, {
+	      method: 'put',
+	      headers: {
+	        'Content-Type': 'application/json',
+	        'Authorization': `Bearer ${token}`
+	      },
+	      body: JSON.stringify(data)
+	    })
+	}
+
 	return (
 		<>
 		<Form
@@ -132,6 +167,9 @@ const Home = () => {
 			    <Card title={(x.user === null ? "noname" : <Link to={`/user/${x.user.username}`}>{x.user.username}</Link>)} bordered={false} style={{ width: 300 }}>
 			       <p>{x.text}</p>
 				   {(x.user !== null && x.user.id === myId ? <button type="button" onClick={() => deletePost(x.id)}>Delete me</button> : "")}
+			       {(x.like === null ? 0 : x.like)}
+			       <button type="button" onClick={() => increment(x)}>+</button>
+			       <button type="button" onClick={() => decrement(x)}>-</button>
 			    </Card>
 			</div>
 

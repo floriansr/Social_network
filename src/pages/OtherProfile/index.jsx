@@ -73,8 +73,10 @@ useEffect(() => {
 
     { thisUser.posts.map((x) => (
         <div className="site-card-border-less-wrapper" key={shortid.generate()}>
-          <Card title="titre" bordered={false} style={{ width: 300 }}>
+          <Card title={`${x.user.username}`} bordered={false} style={{ width: 300 }}>
              <p>{x.text}</p>
+            {(x.like === null ? 0 : x.like)}
+
           </Card>
         </div>
     ))}
