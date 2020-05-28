@@ -32,7 +32,6 @@ const Home = () => {
 	  },
 	};
 
-// ?_limit=20&_sort=created_at:desc
 
   useEffect(() => {
 
@@ -45,7 +44,6 @@ const Home = () => {
       })
         .then(response => response.json())
         .then(response => {
-          console.log(response)
           dispatch(setPosts(response))
         })
         .catch(error => console.log(error));       
@@ -53,11 +51,6 @@ const Home = () => {
 
 
   
-
-
-
-
-
 	const createPost = ({text}) => {
 
 		    const data = {
@@ -79,6 +72,23 @@ const Home = () => {
 	          console.log(response)
 	        })
 	        .catch(error => console.log(error)); 
+	}
+
+	const deletePost = (postId) => {
+
+
+	      fetch(`https://api-minireseausocial.mathis-dyk.fr/posts/${postId}`, {
+	        method: 'delete',
+	        headers: {
+	          'Authorization': `Bearer ${token}`, 
+	          'Content-Type': 'application/json'
+	        },
+	      })
+	        .then(response => response.json())
+	        .then(response => {
+	          console.log(response)
+	        })
+	        .catch(error => console.log(error));
 	}
 
 	const onFinish = values => {
@@ -133,11 +143,12 @@ const Home = () => {
 
 		{ allPosts.map((x) => (
 
-			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
 
+			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
 
 			    <Card title={(x.user === null ? "noname" : <Link to={`/user/${x.user.username}`}>{x.user.username}</Link>)} bordered={false} style={{ width: 300 }}>
 			       <p>{x.text}</p>
+				   {(x.user !== null && x.user.id === myId ? <button type="button" onClick={() => deletePost(x.id)}>Delete me</button> : "")}
 			    </Card>
 			</div>
 

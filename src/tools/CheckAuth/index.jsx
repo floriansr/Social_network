@@ -6,14 +6,8 @@ import { setConnexion } from "../../redux";
 
 const CheckAuth = () => {
 	const logii = useSelector(state => state.log);
-
-	console.log(logii)
-
 	const dispatch = useDispatch();
-
 	dispatch(setConnexion())
-
-	console.log(logii)
 
 
 
