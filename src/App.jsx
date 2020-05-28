@@ -11,31 +11,33 @@ import Home from "pages/Home";
 import Register from "pages/Register";
 import LogIn from "pages/Login";
 import Profile from "pages/Profile";
+import OtherProfile from "pages/OtherProfile";
+
 
 
 const App = () => {
 
-	return (
-		<>
-		<Router>
-					<div>
-						<Provider store={store}>
+  return (
+    <>
+    <Router>
+          <div>
+            <Provider store={store}>
 
-							<Navbar />
+              <Navbar />
 
-							<Switch>
-								<Route path="/register" component={Register} />
-								<Route path="/login" component={LogIn} />
+              <Switch>
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={LogIn} />
 
-								<Authroute path="/profile" component={Profile} />
-								<Authroute path="/" component={Home} />
-							</Switch>
+                <Authroute path="/user/:userSlug" component={OtherProfile} />
+                <Authroute path="/profile" component={Profile} />
+                <Authroute path="/" component={Home} />
+              </Switch>
 
-						</Provider>
-					</div>
-				</Router>
-		</>
-	);
+            </Provider>
+          </div>
+        </Router>
+    </>
+  );
 };
-
 export default App;

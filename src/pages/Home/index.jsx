@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 
 import { Form, Input, Button, Card } from 'antd';
 import Loader from "react-loader";
@@ -30,6 +32,7 @@ const Home = () => {
 	  },
 	};
 
+// ?_limit=20&_sort=created_at:desc
 
   useEffect(() => {
 
@@ -47,6 +50,9 @@ const Home = () => {
         })
         .catch(error => console.log(error));       
     }, [dispatch, token]);
+
+
+  
 
 
 
@@ -124,31 +130,21 @@ const Home = () => {
 		      </Form.Item>
 		    </Form>
 
-		  <div className="site-card-border-less-wrapper">
-
 
 		{ allPosts.map((x) => (
 
-			  <div key={shortid.generate()}>
-			    <Card title={(x.user === null ? "noname" : x.user.username)} bordered={false} style={{ width: 300 }}>
+			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
+
+
+			    <Card title={(x.user === null ? "noname" : <Link to={`/user/${x.user.username}`}>{x.user.username}</Link>)} bordered={false} style={{ width: 300 }}>
 			       <p>{x.text}</p>
 			    </Card>
-			  </div>
+			</div>
+
 		))}
-
-		  </div>
-
 		</>
 	);
 };
 
 export default Home;
 
-
-		    // <Card title={{if (xuserusername = null) return "az"}} bordered={false} style={{ width: 300 }} key={shortid.generate()}>
-		    //   <p>{x.text}</p>
-		    // </Card>
-
-		// {allPosts.map((x) => (
-		// 	console.log("x")
-		// 	))}
