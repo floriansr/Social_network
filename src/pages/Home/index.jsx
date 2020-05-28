@@ -1,20 +1,19 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 
 
 import { Form, Input, Button, Card } from 'antd';
 import Loader from "react-loader";
 
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import Cookies from 'js-cookie'
 import shortid from "shortid";
 
-import { setPosts } from "../../redux";
-
 
 const Home = () => {
+	const history = useHistory();
 	const myId = useSelector(state => state.user.data.id);
-	const dispatch = useDispatch();
+	const allPosts = useSelector(state => state.posts.posts);
 	const token = Cookies.get('token')
 
 	const layout = {
@@ -32,23 +31,9 @@ const Home = () => {
 	  },
 	};
 
-
-  useEffect(() => {
-
-      fetch("https://api-minireseausocial.mathis-dyk.fr/posts", {
-        method: 'get',
-        headers: {
-          'Authorization': `Bearer ${token}`, 
-          'Content-Type': 'application/json'
-        },
-      })
-        .then(response => response.json())
-        .then(response => {
-          dispatch(setPosts(response))
-        })
-        .catch(error => console.log(error));       
-    }, [dispatch, token]);
-
+	const refresh = () => {
+		history.push("/");
+	}
 
   
 	const createPost = ({text}) => {
@@ -100,8 +85,6 @@ const Home = () => {
 	    console.log('Failed:', errorInfo);
 	};
 
-	const allPosts = useSelector(state => state.posts.posts);
-
 
 	if (allPosts.length === 0) {
 		return (
@@ -134,7 +117,7 @@ const Home = () => {
 		      </Form.Item>
 
 		      <Form.Item {...tailLayout}>
-		        <Button type="primary" htmlType="submit">
+		        <Button type="primary" htmlType="submit" onClick={refresh}>
 		          Submit
 		        </Button>
 		      </Form.Item>

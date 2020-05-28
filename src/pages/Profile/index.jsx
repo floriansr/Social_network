@@ -1,34 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Loader from "react-loader";
 import { Descriptions } from 'antd';
 
 import ModificationMyProfile from "components/ModificationMyProfile"
 
-import { useSelector, useDispatch } from "react-redux"
-import Cookies from 'js-cookie'
-import { setProfile } from "../../redux";
+import { useSelector } from "react-redux"
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const token = Cookies.get('token')
-
-  useEffect(() => {
-
-    fetch('https://api-minireseausocial.mathis-dyk.fr/users/me', {
-      method: 'get',
-      headers: {
-        'Authorization': `Bearer ${token}`, 
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(response => response.json())
-      .then(response => {
-        dispatch(setProfile(response))
-      })
-      .catch(error => console.log(error)); 
-
-}, [dispatch, token]);
-
   const myProfile = useSelector(state => state.user.data);
 
   if (!myProfile) {
