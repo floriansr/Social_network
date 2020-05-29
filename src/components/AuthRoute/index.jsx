@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react'
-import { Route } from "react-router-dom";
-// import Loader from "react-loader";
+
+import { useSelector, useDispatch } from "react-redux"
+import { Route } from "react-router-dom";	
 
 import Cookies from 'js-cookie'
 import shortid from 'shortid'
 import { Card } from 'antd';
-import { useSelector, useDispatch } from "react-redux"
+
 import { setConnexion, removeConnexion, setPosts, setProfile } from "../../redux";
 
 
 const AuthRoute = ({ component: Component, ...rest } : AuthRoute) => {
+	const token = Cookies.get('token');
 	const dispatch = useDispatch();
-	const token = Cookies.get('token')
 	const logStatus = useSelector(state => state.log.log);
 	const allPosts = useSelector(state => state.posts.posts);
 
@@ -38,7 +39,7 @@ const AuthRoute = ({ component: Component, ...rest } : AuthRoute) => {
 
 		useEffect(() => { 
 
-		    fetch("https://api-minireseausocial.mathis-dyk.fr/posts?_limit=100000&_sort=created_at:desc", {
+		    fetch("https://api-minireseausocial.mathis-dyk.fr/posts?_limit=1000&_sort=created_at:desc", {
 		        method: 'get',
 		        headers: {
 		          'Content-Type': 'application/json'
@@ -59,19 +60,21 @@ const AuthRoute = ({ component: Component, ...rest } : AuthRoute) => {
 	return (
 		<>
 			<Route {...rest} render={props => ( (checkLog() && logStatus) ? ( <Component {...props} />) : 
-				( <div><p>Welcome on My Social Network. This website is a training to Redux and React. We use auth and routing to create a small social media website.</p>
+				( 
+				<div>
+					<p>Welcome on My Social Network. This website is a training to Redux and React. We use auth and routing to create a small social media website.</p>
 			
-			{ allPosts.map((x) => (
-			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
+					{ allPosts.map((x) => (
+						<div className="site-card-border-less-wrapper" key={shortid.generate()}>
 
-			    <Card  bordered={false} style={{ width: 300 }}>
-			       <p>{x.text}</p>
-			    </Card>
-			</div>
-
-		))}	
-			
-			</div>))} />
+						    <Card bordered={false} style={{ width: 300 }}>
+						       <p>{x.text}</p>
+						    </Card>
+						</div>
+					))}	
+				</div>
+				)
+			)} />
 		</>
 	);
 }

@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
+
 import Loader from "react-loader";
-import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom";
-import { Descriptions, Card } from 'antd';
-import shortid from "shortid";
+import { useSelector, useDispatch } from "react-redux"
+
 import Cookies from 'js-cookie'
+import shortid from "shortid";
+import { Descriptions, Card } from 'antd';
+
 import { setDetailsUser, setPostsUser } from "../../redux";
 
 const OtherProfile = () => {
-
   const dispatch = useDispatch();
   const { userSlug } = useParams();
-  const token = Cookies.get('token')
   const allPosts = useSelector(state => state.posts.posts);
+  const token = Cookies.get('token')
+
 
 useEffect(() => {
      
@@ -60,6 +63,7 @@ useEffect(() => {
       <Loader />
     )
   }
+
   return (
     <>
     <Descriptions
@@ -73,10 +77,9 @@ useEffect(() => {
 
     { thisUser.posts.map((x) => (
         <div className="site-card-border-less-wrapper" key={shortid.generate()}>
-          <Card title={`${x.user.username}`} bordered={false} style={{ width: 300 }}>
+          <Card title={`${x.user.username}`} bordered={false}>
              <p>{x.text}</p>
             {(x.like === null ? 0 : x.like)}
-
           </Card>
         </div>
     ))}

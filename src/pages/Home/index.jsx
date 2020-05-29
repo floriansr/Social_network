@@ -1,21 +1,16 @@
 import React from "react";
+
 import { Link, useHistory } from "react-router-dom";
-
-
-import { Form, Input, Button, Card } from 'antd';
+import { useSelector } from "react-redux"
 import Loader from "react-loader";
 
-import { useSelector } from "react-redux"
 import Cookies from 'js-cookie'
 import shortid from "shortid";
-
-// import { increment, decrement } from "../../redux";
-
+import { Form, Input, Button, Card } from 'antd';
 
 
 const Home = () => {
-	const history = useHistory();
-	// const dispatch = useDispatch();
+	const history = useHistory(); // was looking for refresh my homepage for new post / delete / like
 	const myId = useSelector(state => state.user.data.id);
 	const allPosts = useSelector(state => state.posts.posts);
 	const token = Cookies.get('token')
@@ -35,18 +30,17 @@ const Home = () => {
 	  },
 	};
 
-	const refresh = () => {
+	const refresh = () => { // inactive
 		history.push("/");
 	}
 
   
 	const createPost = ({text}) => {
 
-		    const data = {
-		      text,
-		      user: myId
-		    }
-
+		const data = {
+		    text,
+		    user: myId
+		}
 
 	      fetch("https://api-minireseausocial.mathis-dyk.fr/posts", {
 	        method: 'post',
@@ -64,8 +58,6 @@ const Home = () => {
 	}
 
 	const deletePost = (postId) => {
-
-
 	      fetch(`https://api-minireseausocial.mathis-dyk.fr/posts/${postId}`, {
 	        method: 'delete',
 	        headers: {
@@ -83,6 +75,7 @@ const Home = () => {
 	const onFinish = values => {
 	    console.log('Success:', values);
 	    createPost(values)
+	    refresh()
 	};
 
 	const onFinishFailed = errorInfo => {
@@ -152,7 +145,7 @@ const Home = () => {
 		      </Form.Item>
 
 		      <Form.Item {...tailLayout}>
-		        <Button type="primary" htmlType="submit" onClick={refresh}>
+		        <Button type="primary" htmlType="submit">
 		          Submit
 		        </Button>
 		      </Form.Item>
@@ -164,7 +157,7 @@ const Home = () => {
 
 			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
 
-			    <Card title={(x.user === null ? "noname" : <Link to={`/user/${x.user.username}`}>{x.user.username}</Link>)} bordered={false} style={{ width: 300 }}>
+			    <Card title={(x.user === null ? "noname" : <Link to={`/user/${x.user.username}`}>{x.user.username}</Link>)} bordered={false}>
 			       <p>{x.text}</p>
 				   {(x.user !== null && x.user.id === myId ? <button type="button" onClick={() => deletePost(x.id)}>Delete me</button> : "")}
 			       {(x.like === null ? 0 : x.like)}
