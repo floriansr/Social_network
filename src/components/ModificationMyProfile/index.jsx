@@ -35,8 +35,6 @@ const ModificationMyProfile  = () => {
       description,
     }
 
-    console.log(`https://api-minireseausocial.mathis-dyk.fr/users/${myId}`)
-
       fetch(`https://api-minireseausocial.mathis-dyk.fr/users/${myId}`, {
         method: 'put',
         headers: {

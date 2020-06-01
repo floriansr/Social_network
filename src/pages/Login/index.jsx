@@ -30,7 +30,6 @@ const LogIn = () => {
   const dispatch = useDispatch();
 
 
-
   const Connexion = ({identifier, password}) => {
 
     const data = {

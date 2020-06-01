@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <>
-    <Router>
+      <Router>
           <div>
             <Provider store={store}>
 
@@ -36,7 +36,7 @@ const App = () => {
 
             </Provider>
           </div>
-        </Router>
+      </Router>
     </>
   );
 };

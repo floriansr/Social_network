@@ -1,19 +1,19 @@
 import React from "react";
 
-import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux"
-import Loader from "react-loader";
-
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux"
 import Cookies from 'js-cookie'
 import shortid from "shortid";
 import { Form, Input, Button, Card } from 'antd';
+import { createPost, deletePost, editPost } from '../../redux'
 
 
 const Home = () => {
-	const history = useHistory(); // was looking for refresh my homepage for new post / delete / like
+	const dispatch = useDispatch();
 	const myId = useSelector(state => state.user.data.id);
 	const allPosts = useSelector(state => state.posts.posts);
 	const token = Cookies.get('token')
+
 
 	const layout = {
 	  labelCol: {
@@ -30,12 +30,8 @@ const Home = () => {
 	  },
 	};
 
-	const refresh = () => { // inactive
-		history.push("/");
-	}
-
   
-	const createPost = ({text}) => {
+	const newPost = ({text}) => {
 
 		const data = {
 		    text,
@@ -52,12 +48,12 @@ const Home = () => {
 	      })
 	        .then(response => response.json())
 	        .then(response => {
-	          console.log(response)
+	          dispatch(createPost(response))
 	        })
 	        .catch(error => console.log(error)); 
 	}
 
-	const deletePost = (postId) => {
+	const erasePost = (postId) => {
 	      fetch(`https://api-minireseausocial.mathis-dyk.fr/posts/${postId}`, {
 	        method: 'delete',
 	        headers: {
@@ -67,27 +63,19 @@ const Home = () => {
 	      })
 	        .then(response => response.json())
 	        .then(response => {
-	          console.log(response)
+	        	dispatch(deletePost(response))
 	        })
 	        .catch(error => console.log(error));
 	}
 
 	const onFinish = values => {
 	    console.log('Success:', values);
-	    createPost(values)
-	    refresh()
+	    newPost(values)
 	};
 
 	const onFinishFailed = errorInfo => {
 	    console.log('Failed:', errorInfo);
 	};
-
-
-	if (allPosts.length === 0) {
-		return (
-			<Loader />
-		)
-	}
 
 	const increment = (post) => {
 
@@ -103,6 +91,11 @@ const Home = () => {
 	      },
 	      body: JSON.stringify(data)
 	    })
+	   	.then(response => response.json())
+	    .then(response => {
+	        dispatch(editPost(response))
+	    })
+	    .catch(error => console.log(error));
 	}
 
 	const decrement = (post) => {
@@ -118,6 +111,11 @@ const Home = () => {
 	      },
 	      body: JSON.stringify(data)
 	    })
+	   	.then(response => response.json())
+	    .then(response => {
+	        dispatch(editPost(response))
+	    })
+	    .catch(error => console.log(error));
 	}
 
 	return (
@@ -152,14 +150,14 @@ const Home = () => {
 		    </Form>
 
 
-		{ allPosts.map((x) => (
+		{ allPosts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((x) => (
 
 
 			<div className="site-card-border-less-wrapper" key={shortid.generate()}>
 
 			    <Card title={(x.user === null ? "noname" : <Link to={`/user/${x.user.username}`}>{x.user.username}</Link>)} bordered={false}>
 			       <p>{x.text}</p>
-				   {(x.user !== null && x.user.id === myId ? <button type="button" onClick={() => deletePost(x.id)}>Delete me</button> : "")}
+				   {(x.user !== null && x.user.id === myId ? <button type="button" onClick={() => erasePost(x.id)}>Delete me</button> : "")}
 			       {(x.like === null ? 0 : x.like)}
 			       <button type="button" onClick={() => increment(x)}>+</button>
 			       <button type="button" onClick={() => decrement(x)}>-</button>

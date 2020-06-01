@@ -17,7 +17,7 @@ const OtherProfile = () => {
   const token = Cookies.get('token')
 
 
-useEffect(() => {
+  useEffect(() => {
      
     const checkProfileId = allPosts.find((x) => {
        if (x.user && x.user.username === userSlug) {
